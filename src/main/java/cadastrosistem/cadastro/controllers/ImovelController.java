@@ -3,6 +3,7 @@ package cadastrosistem.cadastro.controllers;
 import cadastrosistem.cadastro.models.Imovel;
 import cadastrosistem.cadastro.services.ImovelService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,5 +24,28 @@ public class ImovelController {
     @GetMapping
     public List<Imovel> listar() {
         return service.listarTodos();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Imovel> buscarPorId(@PathVariable Long id) {
+        return service.buscarPorId(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Imovel> atualizar(@PathVariable Long id, @RequestBody Imovel imovel) {
+        try {
+            Imovel atualizado = service.atualizar(id, imovel);
+            return ResponseEntity.ok(atualizado);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Long id) {
+        service.deletar(id);
+        return ResponseEntity.noContent().build();
     }
 }
