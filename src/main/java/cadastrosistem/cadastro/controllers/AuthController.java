@@ -16,7 +16,7 @@ public class AuthController {
     @Autowired
     private UsuarioService service;
 
-    @PostMapping("/registrar")
+    @PostMapping({"/register", "/registrar"})
     public ResponseEntity<Usuario> registrar(@RequestBody UsuarioDTO dto) {
         return ResponseEntity.ok(service.cadastrar(dto));
     }
