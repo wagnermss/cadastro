@@ -2,6 +2,7 @@ package cadastrosistem.cadastro.controllers;
 
 import cadastrosistem.cadastro.models.Imovel;
 import cadastrosistem.cadastro.services.ImovelService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ public class ImovelController {
     private ImovelService service;
 
     @PostMapping
-    public Imovel criar(@RequestBody Imovel imovel) {
+    public Imovel criar(@Valid @RequestBody Imovel imovel) {
         return service.salvar(imovel);
     }
 
@@ -34,7 +35,7 @@ public class ImovelController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Imovel> atualizar(@PathVariable Long id, @RequestBody Imovel imovel) {
+    public ResponseEntity<Imovel> atualizar(@PathVariable Long id, @Valid @RequestBody Imovel imovel) {
         try {
             Imovel atualizado = service.atualizar(id, imovel);
             return ResponseEntity.ok(atualizado);

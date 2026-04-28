@@ -4,6 +4,7 @@ import cadastrosistem.cadastro.dtos.LoginDTO;
 import cadastrosistem.cadastro.dtos.UsuarioDTO;
 import cadastrosistem.cadastro.models.Usuario;
 import cadastrosistem.cadastro.services.UsuarioService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,12 +18,12 @@ public class AuthController {
     private UsuarioService service;
 
     @PostMapping({"/register", "/registrar"})
-    public ResponseEntity<Usuario> registrar(@RequestBody UsuarioDTO dto) {
+    public ResponseEntity<Usuario> registrar(@Valid @RequestBody UsuarioDTO dto) {
         return ResponseEntity.ok(service.cadastrar(dto));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Usuario> login(@RequestBody LoginDTO login) {
+    public ResponseEntity<Usuario> login(@Valid @RequestBody LoginDTO login) {
         return service.autenticar(login)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.status(401).build());
